@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".VideoActivity">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/pv_finder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageButton
+        android:id="@+id/bt_alarm1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="25dp"
+        android:src="@drawable/ic_music"
+        android:scaleType="fitCenter"
+        android:layout_gravity="top|start"
+        android:contentDescription="@string/alarm"
+        android:backgroundTint="@color/blue"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/bt_alarm2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="25dp"
+        android:src="@drawable/ic_music"
+        android:scaleType="fitCenter"
+        android:layout_gravity="top|end"
+        android:contentDescription="@string/alarm"
+        android:backgroundTint="@color/yellow"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/bt_video_start"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_start_video"
+        android:scaleType="fitCenter"
+        android:layout_gravity="bottom|center"
+        android:contentDescription="@string/video"
+        app:backgroundTint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/bt_historic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        app:srcCompat="@drawable/ic_historic"
+        android:scaleType="fitCenter"
+        android:layout_gravity="bottom|start"
+        android:contentDescription="@string/historic"
+        app:backgroundTint="@color/white" />
+
+</FrameLayout>

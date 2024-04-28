@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SafeTrip</string>
+    <string name="login">Login</string>
+    <string name="senha">Senha</string>
+    <string name="new_user">Ainda não está registrado?</string>
+    <string name="start_capture">Iniciar</string>
+    <string name="stop_capture">Parar</string>
+    <string name="historic">Histórico</string>
+    <string name="history">History</string>
+    <string name="video">Vídeo</string>
+    <string name="alarm">Alarme</string>
+</resources>
