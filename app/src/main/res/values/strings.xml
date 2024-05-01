@@ -9,4 +9,13 @@
     <string name="history">History</string>
     <string name="video">Vídeo</string>
     <string name="alarm">Alarme</string>
+    <string name="existing_user">Já possui uma conta?</string>
+    <string name="confirm_password">Confirmar senha</string>
+    <string name="salvar">Salvar</string>
+    <string name="nome_existente">O nome de usuário já está em uso</string>
+    <string name="senha_diferente">As senhas não coincidem</string>
+    <string name="usuario_salvo">Usuário salvo com sucesso</string>
+    <string name="login_sucesso">Login bem-sucedido</string>
+    <string name="senha_incorreta">Senha incorreta</string>
+    <string name="usuario_incorreto">Nome de usuário não encontrado</string>
 </resources>

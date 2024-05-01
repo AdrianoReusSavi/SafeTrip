@@ -7,7 +7,7 @@ import java.util.Date
 
 @Entity(tableName = "history")
 class SafeTripHistory(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo(name = "date_start") val dateStart: Date,
     @ColumnInfo(name = "date_end") val dateEnd: Date,
     @ColumnInfo(name = "travel_minutes") val travelMinutes: Int?,
