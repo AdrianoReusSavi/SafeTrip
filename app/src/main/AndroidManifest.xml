@@ -21,6 +21,9 @@
         android:theme="@style/Theme.SafeTrip"
         tools:targetApi="31">
         <activity
+            android:name=".UserActivity"
+            android:exported="false" />
+        <activity
             android:name=".VideoActivity"
             android:exported="true" />
         <activity

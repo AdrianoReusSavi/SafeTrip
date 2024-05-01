@@ -239,12 +239,9 @@ class VideoActivity : AppCompatActivity() {
                             isEnabled = true
                         }
 
-                        val qtd = if (safeTripList.isNotEmpty()) safeTripList.count() + 1 else 1
-                        val dateEnd = Date(System.currentTimeMillis())
-                        // used to generate random values
-                        val safeTripHistory = SafeTripHistory(id = qtd,
+                        val safeTripHistory = SafeTripHistory(
                             dateStart = dateStart,
-                            dateEnd = dateEnd,
+                            dateEnd = Date(System.currentTimeMillis()),
                             travelMinutes = 0,
                             travelOccurrences = 0)
 
