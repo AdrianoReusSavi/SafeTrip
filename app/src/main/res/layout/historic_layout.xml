@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_history"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_marginStart="30dp"
+        tools:itemCount="10"
+        tools:listitem="@layout/rv_history" />
 
     <ImageButton
         android:id="@+id/bt_close"
@@ -12,15 +19,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_close"
         android:scaleType="fitCenter"
-        android:layout_gravity="end"
+        android:layout_gravity="end|top"
         android:contentDescription="@string/video"
         app:backgroundTint="@android:color/transparent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_history"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        tools:itemCount="10"
-        tools:listitem="@layout/rv_history" />
-
-</LinearLayout>
+</FrameLayout>
