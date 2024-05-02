@@ -239,10 +239,12 @@ class VideoActivity : AppCompatActivity() {
                             isEnabled = true
                         }
 
+                        val dateEnd = Date(System.currentTimeMillis())
+                        val tempo = (dateEnd.time - dateStart.time).toInt() / (1000 * 60)
                         val safeTripHistory = SafeTripHistory(
                             dateStart = dateStart,
-                            dateEnd = Date(System.currentTimeMillis()),
-                            travelMinutes = 0,
+                            dateEnd = dateEnd,
+                            travelMinutes = tempo,
                             travelOccurrences = 0)
 
                         saveData(safeTripHistory)
@@ -273,7 +275,7 @@ class VideoActivity : AppCompatActivity() {
         rv.layoutManager = LinearLayoutManager(this)
 
         safeTripList = ArrayList()
-        safeTripAdapter = SafeTripAdapter(safeTripList, 1)
+        safeTripAdapter = SafeTripAdapter(safeTripList)
         rv.adapter = safeTripAdapter
     }
 
@@ -287,6 +289,9 @@ class VideoActivity : AppCompatActivity() {
         builder.setView(dialogView)
         val alertDialog = builder.create()
         alertDialog.show()
+
+        val closeButton = dialogView.findViewById<ImageButton>(R.id.bt_close)
+        closeButton.setOnClickListener { alertDialog.dismiss() }
 
         loadData()
     }
