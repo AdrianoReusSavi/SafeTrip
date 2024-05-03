@@ -12,7 +12,7 @@
         android:layout_height="match_parent" />
 
     <ImageButton
-        android:id="@+id/bt_alarm1"
+        android:id="@+id/ib_alarm1"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="25dp"
@@ -24,7 +24,7 @@
         android:visibility="invisible" />
 
     <ImageButton
-        android:id="@+id/bt_alarm2"
+        android:id="@+id/ib_alarm2"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="25dp"
@@ -36,10 +36,34 @@
         android:visibility="invisible" />
 
     <ImageButton
-        android:id="@+id/bt_video_start"
+        android:id="@+id/ib_warning"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_warning"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center|bottom"
+        android:contentDescription="@string/warning"
+        android:backgroundTint="@android:color/transparent"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/ib_danger"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_danger"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center|bottom"
+        android:contentDescription="@string/danger"
+        android:backgroundTint="@android:color/transparent"
+        android:visibility="invisible" />
+
+    <ImageButton
+        android:id="@+id/ib_video_start"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="25dp"
         android:src="@drawable/ic_start_video"
         android:scaleType="fitCenter"
         android:layout_gravity="bottom|center"
@@ -47,7 +71,7 @@
         android:background="@drawable/ic_button_background" />
 
     <ImageButton
-        android:id="@+id/bt_historic"
+        android:id="@+id/ib_historic"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="25dp"

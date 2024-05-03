@@ -62,18 +62,26 @@ class VideoActivity : AppCompatActivity() {
             requestPermissions()
         }
 
-        viewBinding.btVideoStart.setOnClickListener { captureVideo() }
+        viewBinding.ibVideoStart.setOnClickListener { captureVideo() }
 
-        viewBinding.btHistoric.setOnClickListener { showHistoricModal() }
+        viewBinding.ibHistoric.setOnClickListener { showHistoricModal() }
 
         safeTripList = ArrayList()
         cameraExecutor = Executors.newSingleThreadExecutor()
 
         initDatabase()
 
-        viewBinding.btAlarm1.setOnClickListener { toggleAlarm(viewBinding.btAlarm1, R.raw.music_1) }
+        viewBinding.ibAlarm1.setOnClickListener {
+            toggleAlarm(viewBinding.ibAlarm1, R.raw.music_1)
+            viewBinding.ibWarning.apply { isVisible = !isVisible }
+            viewBinding.ibDanger.apply { isVisible = false }
+        }
 
-        viewBinding.btAlarm2.setOnClickListener { toggleAlarm(viewBinding.btAlarm2, R.raw.music_2) }
+        viewBinding.ibAlarm2.setOnClickListener {
+            toggleAlarm(viewBinding.ibAlarm2, R.raw.music_2)
+            viewBinding.ibDanger.apply { isVisible = !isVisible }
+            viewBinding.ibWarning.apply { isVisible = false }
+        }
     }
 
     companion object {
@@ -151,8 +159,8 @@ class VideoActivity : AppCompatActivity() {
     private fun captureVideo() {
         val videoCapture = this.videoCapture ?: return
 
-        viewBinding.btVideoStart.isEnabled = false
-        viewBinding.btHistoric.isActivated = false
+        viewBinding.ibVideoStart.isEnabled = false
+        viewBinding.ibHistoric.isActivated = false
 
         val curRecording = recording
         if (curRecording != null) {
@@ -185,17 +193,17 @@ class VideoActivity : AppCompatActivity() {
 
                         dateStart = Date(System.currentTimeMillis())
 
-                        viewBinding.btHistoric.apply {
+                        viewBinding.ibHistoric.apply {
                             isVisible = false
                         }
-                        viewBinding.btAlarm1.apply {
+                        viewBinding.ibAlarm1.apply {
                             isVisible = true
                         }
-                        viewBinding.btAlarm2.apply {
+                        viewBinding.ibAlarm2.apply {
                             isVisible = true
                         }
 
-                        viewBinding.btVideoStart.apply {
+                        viewBinding.ibVideoStart.apply {
                             contentDescription = getString(R.string.stop_capture)
                             setImageResource(R.drawable.ic_stop_video)
                             layoutParams.width = resources.getDimensionPixelSize(R.dimen.button_100)
@@ -217,21 +225,21 @@ class VideoActivity : AppCompatActivity() {
                                     "${recordEvent.error}")
                         }
 
-                        if (viewBinding.btAlarm1.isActivated || viewBinding.btAlarm2.isActivated) {
+                        if (viewBinding.ibAlarm1.isActivated || viewBinding.ibAlarm2.isActivated) {
                             stopAlarm()
                         }
 
-                        viewBinding.btHistoric.apply {
+                        viewBinding.ibHistoric.apply {
                             isVisible = true
                         }
-                        viewBinding.btAlarm1.apply {
+                        viewBinding.ibAlarm1.apply {
                             isVisible = false
                         }
-                        viewBinding.btAlarm2.apply {
+                        viewBinding.ibAlarm2.apply {
                             isVisible = false
                         }
 
-                        viewBinding.btVideoStart.apply {
+                        viewBinding.ibVideoStart.apply {
                             contentDescription = getString(R.string.start_capture)
                             setImageResource(R.drawable.ic_start_video)
                             layoutParams.width = resources.getDimensionPixelSize(R.dimen.button_150)
@@ -302,9 +310,8 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun toggleAlarm(button: ImageButton, soundResource: Int) {
-        if (button.isActivated) {
-            stopAlarm()
-        } else {
+        stopAlarm()
+        if (!button.isActivated) {
             startAlarm(soundResource)
         }
 
