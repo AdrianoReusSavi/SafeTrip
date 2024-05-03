@@ -263,7 +263,12 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun saveData(value: SafeTripHistory) {
-        db.safeTripHistory().insertAll(value)
+        try {
+            db.safeTripHistory().insertAll(value)
+        } catch (e: Error) {
+            db.safeTripHistory().getAll()
+            db.safeTripHistory().insertAll(value)
+        }
     }
 
     private fun loadData() {
