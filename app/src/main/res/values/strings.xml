@@ -18,4 +18,6 @@
     <string name="login_sucesso">Login bem-sucedido</string>
     <string name="senha_incorreta">Senha incorreta</string>
     <string name="usuario_incorreto">Nome de usuário não encontrado</string>
+    <string name="warning">Atenção</string>
+    <string name="danger">Perigo</string>
 </resources>
