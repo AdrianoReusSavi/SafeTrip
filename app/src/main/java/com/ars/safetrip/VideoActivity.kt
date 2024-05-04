@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -210,6 +211,8 @@ class VideoActivity : AppCompatActivity() {
                             layoutParams.height = resources.getDimensionPixelSize(R.dimen.button_100)
                             isEnabled = true
                         }
+
+                        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
                     }
                     is VideoRecordEvent.Finalize -> {
                         if (!recordEvent.hasError()) {
@@ -246,6 +249,8 @@ class VideoActivity : AppCompatActivity() {
                             layoutParams.height = resources.getDimensionPixelSize(R.dimen.button_150)
                             isEnabled = true
                         }
+
+                        window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
                         val dateEnd = Date(System.currentTimeMillis())
                         val tempo = (dateEnd.time - dateStart.time).toInt() / (1000 * 60)
