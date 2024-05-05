@@ -3,6 +3,7 @@ package com.ars.safetrip
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.room.Room
 import com.ars.safetrip.database.AppDataBase
 import com.ars.safetrip.database.SafeTripUser
@@ -28,9 +29,15 @@ class UserActivity : AppCompatActivity() {
 
             if (password != confirmPassword) {
                 Toast.makeText(this, getString(R.string.senha_diferente), Toast.LENGTH_SHORT).show()
+            } else if (username.isEmpty()) {
+                Toast.makeText(this, getString(R.string.nome_nao_informado), Toast.LENGTH_SHORT).show()
             } else if (existingUser(username)) {
                 Toast.makeText(this, getString(R.string.nome_existente), Toast.LENGTH_SHORT).show()
-            } else{
+            } else if (minPassword(password)) {
+                Toast.makeText(this, getString(R.string.senha_requerimento), Toast.LENGTH_SHORT).show()
+                viewBinding.etPassword.apply { text.clear() }
+                viewBinding.etConfirmPassword.apply { text.clear() }
+            } else {
                 saveUser(username, password)
                 Toast.makeText(this, getString(R.string.usuario_salvo), Toast.LENGTH_SHORT).show()
                 finish()
@@ -38,6 +45,16 @@ class UserActivity : AppCompatActivity() {
         }
 
         viewBinding.tvExistingUser.setOnClickListener { finish() }
+
+        viewBinding.etPassword.addTextChangedListener {
+            val isValid = viewBinding.etPassword.text.length >= 6
+            viewBinding.tvMinPassword.apply { setTextColor(getColor( if (isValid) R.color.green else R.color.red)) }
+        }
+
+        viewBinding.etConfirmPassword.addTextChangedListener {
+            val passwordsMatch = viewBinding.etPassword.text.toString() == viewBinding.etConfirmPassword.text.toString()
+            viewBinding.tvEqPassword.apply { setTextColor(getColor( if (passwordsMatch) R.color.green else R.color.red)) }
+        }
     }
 
     private fun existingUser(user: String): Boolean {
@@ -56,6 +73,11 @@ class UserActivity : AppCompatActivity() {
         )
             .allowMainThreadQueries()
             .build()
+    }
+
+    private fun minPassword(password: String): Boolean {
+        val length = password.length
+        return length < 6
     }
 
     private fun saveUser(username: String, password: String) {
