@@ -51,15 +51,10 @@ class MainActivity : AppCompatActivity() {
             .build()
     }
 
-    private fun hashPassword(password: String): String {
-        return BCrypt.hashpw(password, BCrypt.gensalt())
-    }
-
     private fun verifyLogin(username: String, password: String): Boolean {
         val user = db.safeTripUser().getUserByUsername(username)
         if (user is SafeTripUser) {
-            val hashedPassword = hashPassword(password)
-            if (checkPassword(password, hashedPassword)) {
+            if (checkPassword(password, user.password)) {
                 Toast.makeText(this, getString(R.string.login_sucesso), Toast.LENGTH_SHORT).show()
                 return true
             }

@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_above="@id/et_password"
+        android:inputType="textPersonName"
         android:hint="@string/login" />
 
     <EditText
@@ -40,13 +41,33 @@
         android:hint="@string/confirm_password" />
 
     <TextView
+        android:id="@+id/tv_min_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/min_password"
+        android:layout_below="@id/et_confirm_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/red" />
+
+    <TextView
+        android:id="@+id/tv_eq_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/eq_password"
+        android:layout_below="@id/tv_min_password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/red" />
+
+    <TextView
         android:id="@+id/tv_existing_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/existing_user"
-        android:layout_below="@id/et_confirm_password"
+        android:layout_below="@id/tv_eq_password"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:textColorLink="@color/text_selector"
         android:clickable="true"
         android:focusable="true" />
@@ -58,6 +79,6 @@
         android:text="@string/salvar"
         android:layout_below="@id/tv_existing_user"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp" />
+        android:layout_marginTop="12dp" />
 
 </RelativeLayout>

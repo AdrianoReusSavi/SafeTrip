@@ -13,11 +13,15 @@
     <string name="confirm_password">Confirmar senha</string>
     <string name="salvar">Salvar</string>
     <string name="nome_existente">O nome de usuário já está em uso</string>
+    <string name="nome_nao_informado">Informe o nome de usuário</string>
     <string name="senha_diferente">As senhas não coincidem</string>
     <string name="usuario_salvo">Usuário salvo com sucesso</string>
     <string name="login_sucesso">Login bem-sucedido</string>
     <string name="senha_incorreta">Senha incorreta</string>
+    <string name="senha_requerimento">Senha não corresponde aos requisitos mínimos</string>
     <string name="usuario_incorreto">Nome de usuário não encontrado</string>
     <string name="warning">Atenção</string>
     <string name="danger">Perigo</string>
+    <string name="min_password">Mínimo 6 caracteres</string>
+    <string name="eq_password">Senhas iguais</string>
 </resources>
