@@ -24,4 +24,10 @@
     <string name="danger">Perigo</string>
     <string name="min_password">Mínimo 6 caracteres</string>
     <string name="eq_password">Senhas iguais</string>
+    <string name="permissoes_negadas">As permissões não foram aceitas</string>
+    <string name="falha_tirar_foto">Falha ao tirar foto: %s</string>
+    <string name="falha_enviar_api">Falha ao enviar imagem para a API: %s</string>
+    <string name="codigo_resposta">Código de resposta: %s</string>
+    <string name="resposta_api">Resposta da API: %s</string>
+    <string name="falha_vinculacao_camera">Falha na vinculação da câmera</string>
 </resources>
