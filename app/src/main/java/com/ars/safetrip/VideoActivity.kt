@@ -38,6 +38,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.json.JSONObject
 import java.io.File
 import java.io.IOException
 import java.util.Date
@@ -51,7 +52,9 @@ class VideoActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityVideoBinding
     private var audio: MediaPlayer? = null
     private var cameraJob: Job? = null
+    private var estadoAtual: ApiResponse? = null
     private var fotoCapturada: ImageCapture? = null
+    private var ocorrencias: Int = 0
 
     private val iniciarActivityResult = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissoes ->
         var permissoesAceitas = true
@@ -91,18 +94,6 @@ class VideoActivity : AppCompatActivity() {
         safeTripList = ArrayList()
 
         iniciarDados()
-
-        viewBinding.ibAlarm1.setOnClickListener {
-            alarme(viewBinding.ibAlarm1, R.raw.music_1)
-            viewBinding.ibWarning.apply { isVisible = !isVisible }
-            viewBinding.ibDanger.apply { isVisible = false }
-        } //substituir por retorno da API
-
-        viewBinding.ibAlarm2.setOnClickListener {
-            alarme(viewBinding.ibAlarm2, R.raw.music_2)
-            viewBinding.ibDanger.apply { isVisible = !isVisible }
-            viewBinding.ibWarning.apply { isVisible = false }
-        } //substituir por retorno da API
     }
 
     private fun permissoesAceitas() = PERMISSOES_OBRIGATORIAS.all {
@@ -144,10 +135,10 @@ class VideoActivity : AppCompatActivity() {
                 dateStart = dataInicio,
                 dateEnd = dataFim,
                 travelMinutes = tempo,
-                travelOccurrences = 0)
+                travelOccurrences = ocorrencias)
 
             salvarDados(dadosGravacao)
-
+            ocorrencias = 0
         } else {
             iniciarGravacao()
             cameraJob = CoroutineScope(Dispatchers.Main).launch {
@@ -181,15 +172,6 @@ class VideoActivity : AppCompatActivity() {
             applicationContext,
             AppDataBase::class.java, "database-history"
         ).allowMainThreadQueries().build()
-    }
-
-    private fun alarme(button: ImageButton, soundResource: Int) {
-        pararAlarme()
-        if (!button.isActivated) {
-            iniciarAlarme(soundResource)
-        }
-
-        button.isActivated = !button.isActivated
     }
 
     private fun salvarDados(dadosGravacao: SafeTripHistory) {
@@ -267,10 +249,17 @@ class VideoActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call, response: Response) {
                 response.use {
+                    val message = response.body?.string()
                     if (!response.isSuccessful) {
                         Log.e(TAG, getString(R.string.codigo_resposta, response.message))
+                        runOnUiThread {
+                            handleApiResponse(message, ApiResponse.DORMINDO)
+                        }
                     }
-                    Log.d(TAG, getString(R.string.resposta_api, response.body?.string()))
+                    val estado = determinarEstado(message)
+                    runOnUiThread {
+                        handleApiResponse(message, estado)
+                    }
                 }
             }
 
@@ -280,8 +269,6 @@ class VideoActivity : AppCompatActivity() {
     private fun iniciarGravacao() {
         dataInicio = Date(System.currentTimeMillis())
         viewBinding.ibHistoric.apply { isVisible = false }
-        viewBinding.ibAlarm1.apply { isVisible = true }
-        viewBinding.ibAlarm2.apply { isVisible = true }
 
         viewBinding.ibVideoStart.apply {
             contentDescription = getString(R.string.stop_capture)
@@ -295,10 +282,7 @@ class VideoActivity : AppCompatActivity() {
     }
 
     private fun pararGravacao() {
-        if (viewBinding.ibAlarm1.isActivated || viewBinding.ibAlarm2.isActivated) { pararAlarme() }
         viewBinding.ibHistoric.apply { isVisible = true }
-        viewBinding.ibAlarm1.apply { isVisible = false }
-        viewBinding.ibAlarm2.apply { isVisible = false }
 
         viewBinding.ibVideoStart.apply {
             contentDescription = getString(R.string.start_capture)
@@ -308,6 +292,62 @@ class VideoActivity : AppCompatActivity() {
             isEnabled = true
         }
 
+        pararAlarme()
+
+        viewBinding.ibDanger.isVisible = false
+        viewBinding.ibWarning.isVisible = false
+
         window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+    }
+
+    private fun handleApiResponse(response: String?, message: ApiResponse) {
+        Log.d(TAG, getString(R.string.resposta_api, response))
+
+        when (message) {
+            ApiResponse.ACORDADO -> {
+                if (message != estadoAtual && cameraJob?.isActive == true) {
+                    pararAlarme()
+                    viewBinding.ibDanger.isVisible = false
+                    viewBinding.ibWarning.isVisible = false
+                }
+            }
+            ApiResponse.DESCONHECIDO -> {
+                if (message != estadoAtual && cameraJob?.isActive == true) {
+                    pararAlarme()
+                    iniciarAlarme(R.raw.music_1)
+                    viewBinding.ibWarning.isVisible = true
+                    viewBinding.ibDanger.isVisible = false
+                }
+            }
+            ApiResponse.DORMINDO -> {
+                if (message != estadoAtual && cameraJob?.isActive == true) {
+                    pararAlarme()
+                    iniciarAlarme(R.raw.music_2)
+                    viewBinding.ibDanger.isVisible = true
+                    viewBinding.ibWarning.isVisible = false
+                    ocorrencias++
+                }
+            }
+            else -> {
+                viewBinding.ibDanger.isVisible = false
+                viewBinding.ibWarning.isVisible = false
+            }
+        }
+
+        estadoAtual = message
+    }
+
+    private fun determinarEstado(responseBody: String?): ApiResponse {
+        val responseJson = JSONObject(responseBody.toString())
+        val message = responseJson.optString("message", "")
+
+        return ApiResponse.entries.find { it.message.equals(message, ignoreCase = true) }
+            ?: ApiResponse.DESCONHECIDO
+    }
+
+    enum class ApiResponse(val message: String) {
+        ACORDADO("Acordado"),
+        DORMINDO("Dormindo"),
+        DESCONHECIDO("Desconhecido")
     }
 }
